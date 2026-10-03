@@ -53,6 +53,12 @@ Toolport on your normal update path.
 - [Security](SECURITY.md) and [troubleshooting](docs/troubleshooting.md)
 - [Changelog](CHANGELOG.md)
 
+## Desktop shells and gateway
+
+The React/Tauri management interface and Linux GTK shell are distinct source surfaces. Linux appearance follows the Omarchy palette; the React interface uses its own light, dark and system theme selection. The [source overview](docs/source-overview.mdx) describes the architecture and operating boundaries.
+
+The [Linux-native setup](docs/linux-native.md), [native parity and intentional differences](docs/linux-native-parity.md), and [headless gateway guide](docs/headless.md) document the platform boundaries. The [screenshot inventory](docs/screenshots/README.md) identifies the native Linux Tokyo Night hero. A React browser fixture does not establish GTK, keychain or native gateway acceptance.
+
 ## Development
 
 Requires Node.js and stable Rust, plus the platform dependencies described in
