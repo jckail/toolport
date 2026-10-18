@@ -52,8 +52,11 @@ Open a PR for every change: what changed, why, how it was verified, risks, and t
 - Never save secrets, credentials, raw conversations, tool output dumps, or private application data. Memory is not a substitute for docs or commit messages; put the durable explanation in the repo too.
 
 ### Superdesign (UI design)
-- This repo has no web UI today, so there is normally no Superdesign work here. Local mapping is in `.superdesign/projects.json` (ui) and `.superdesign/init/` holds an analysis of what UI-adjacent surface exists (CLI output, docs, templates).
-- If you add or change a user-facing UI, use the `superdesign` skill/plugin and `~/.agents/skills/superdesign-memory` (look up with `find_components.py`, record drafts with `link_draft.py`) and then update this section.
+- Superdesign project(s) for this repo: Toolport — Web and Native Source Audit (https://superdesign.dev/teams/daa6c1df-346f-4dc3-81dd-fb4f462aff90/projects/32f84254-7334-48f7-8cc5-b5b1f3fc9f9d). Local state is in `.superdesign/`: `projects.json` (project mapping), `init/` (six repo-analysis files: components, layouts, routes, theme, pages, extractable-components) and `resume.json` (resumable design targets, where present). These can be local-only in a clone; if `.superdesign/` is missing, run `superdesign login` then the Superdesign plugin's init rather than guessing.
+- **Before designing or changing UI**, look up what exists: `python3 ~/.agents/skills/superdesign-memory/scripts/find_components.py "<what you need>"` (run inside this repo). Reuse the components and source paths it returns, check them against current source, and read `.superdesign/design-system.md` if present.
+- **Designing:** use the `superdesign` skill/plugin and the `superdesign` CLI against this repo's project. Start from `resume.json` for a known target instead of re-deriving context. Reproduce the real UI faithfully before proposing variations. Creating projects and AI-generated drafts costs credits; importing hand-authored HTML (`import-design-draft`) does not.
+- **After designing:** record the draft so design and code stay linked: `python3 ~/.agents/skills/superdesign-memory/scripts/link_draft.py --draft-id <id> --title "<title>" --target "<route or feature>" --components A,B`, and keep `resume.json` current.
+- Superdesign projects cannot be deleted or merged from the CLI; do not re-import drafts to "move" them unless asked. Never commit Superdesign credentials (they live in `~/.superdesign/`, not the repo).
 <!-- END SHARED MEMORY AND DESIGN -->
 
 <!-- prettier-ignore-end -->
