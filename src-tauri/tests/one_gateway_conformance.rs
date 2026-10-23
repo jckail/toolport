@@ -804,7 +804,7 @@ fn process_report(needle: &str) -> Vec<String> {
         .expect("run ps for the process report");
     String::from_utf8_lossy(&output.stdout)
         .lines()
-        .filter(|line| line.contains(needle))
+        .filter(|line| line.contains(needle) && !line.contains("<defunct>"))
         .map(str::to_string)
         .collect()
 }
@@ -831,8 +831,12 @@ fn process_command_lines() -> Vec<String> {
         .args(["-axo", "command="])
         .output()
         .expect("run ps");
+    // Zombies are not live processes. Where PID 1 never reaps orphans (some
+    // CI sandboxes), killed children linger as `[name] <defunct>` and would
+    // otherwise be counted.
     String::from_utf8_lossy(&output.stdout)
         .lines()
+        .filter(|line| !line.contains("<defunct>"))
         .map(str::to_string)
         .collect()
 }
