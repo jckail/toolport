@@ -78,7 +78,7 @@
 # Usage: scripts/patch-appimage.sh <path/to/App.AppImage>
 #
 # The AppImage is rewritten IN PLACE, so its Tauri updater signature no longer
-# matches. Re-run `tauri signer sign` on it afterwards (release.yml does).
+# matches. Re-run `tauri signer sign` on it afterwards (upstream's release workflow does).
 set -euo pipefail
 
 appimage=${1:-}

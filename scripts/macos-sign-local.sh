@@ -25,7 +25,7 @@
 # It is idempotent and safe to re-run (e.g. the "update" test). It re-creates the
 # helper bundle from whichever real binary it can find, then re-signs.
 #
-# It does NOT touch the Tauri config or .github/workflows/release.yml. The CI
+# It does NOT touch the Tauri config or upstream's release workflow. The CI
 # integration is a later phase.
 
 set -euo pipefail

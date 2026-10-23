@@ -122,11 +122,12 @@ APP="$APP" IDENTITY="$APPLE_SIGNING_IDENTITY" APP_PROFILE="$APP_PROFILE" GW_PROF
 #    blocked v1.9.1 for ~2h, and an unbounded `submit` alone burned the full 60m
 #    step cap on v1.9.4 Intel (dmg upload never returned an id). notarize() bounds
 #    both the upload/submit and the wait, dumps diagnostics on wait failure, and
-#    fails fast so the release can re-run once Apple's queue recovers. release.yml
+#    fails fast so the release can re-run once Apple's queue recovers. Upstream's release
+#    workflow (not in this fork; publishing is upstream's, see ARCH-REPO-SETUP.md)
 #    also caps this whole step with timeout-minutes as a backstop only.
 # ---------------------------------------------------------------------------
 # 20m wait + 5m submit (with one retry) per artifact: two sequential artifacts must
-# still finish under release.yml's 60m step cap so our own fast-fail always beats
+# still finish under the 60m step cap of upstream's release workflow so our own fast-fail always beats
 # the blunt step timeout.
 NOTARIZE_TIMEOUT="${NOTARIZE_TIMEOUT:-20m}"
 NOTARIZE_SUBMIT_TIMEOUT="${NOTARIZE_SUBMIT_TIMEOUT:-5m}"
