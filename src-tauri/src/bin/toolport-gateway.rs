@@ -30059,14 +30059,19 @@ mod tests {
             None,
         )
         .unwrap();
-        let measured = savings::entries().into_iter().next().unwrap();
-        assert_eq!(
-            measured["exposedSurfaceBytes"],
-            savings::surface_bytes(apps["result"]["tools"].as_array().unwrap())
-        );
-        assert_eq!(
-            measured["fullSurfaceBytes"],
-            savings::surface_bytes(full_apps["result"]["tools"].as_array().unwrap())
+        // Look the entry up by value instead of taking the first one: on a busy
+        // runner other tests' savings rows can land in the log ahead of this
+        // one, which made `.next()` flaky (JCK-2032).
+        let expected_exposed = savings::surface_bytes(apps["result"]["tools"].as_array().unwrap());
+        let expected_full =
+            savings::surface_bytes(full_apps["result"]["tools"].as_array().unwrap());
+        let entries = savings::entries();
+        assert!(
+            entries.iter().any(|entry| {
+                entry["exposedSurfaceBytes"] == expected_exposed
+                    && entry["fullSurfaceBytes"] == expected_full
+            }),
+            "no savings entry measured exposed={expected_exposed} full={expected_full}: {entries:?}"
         );
 
         let ordinary = handle_request(
