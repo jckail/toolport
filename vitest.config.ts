@@ -20,7 +20,7 @@ export default defineConfig({
           name: "logic",
           environment: "node",
           include: ["src/**/*.test.ts", "benchmark/**/*.test.mjs"],
-          exclude: domLogicTests,
+          exclude: [...domLogicTests, ".worktrees/**"],
         },
       },
       {
@@ -29,6 +29,7 @@ export default defineConfig({
           name: "ui",
           environment: "jsdom",
           include: ["src/**/*.test.tsx", ...domLogicTests],
+          exclude: [".worktrees/**"],
           setupFiles: ["./src/test/setup.ts"],
         },
       },

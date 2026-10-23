@@ -1,7 +1,7 @@
 # Runtime-only headless Toolport gateway image.
-# CI builds `toolport-gateway` with cached Rust (see docker-publish.yml) and
-# copies the binary in as `toolport-gateway-bin` before `docker build`.
-# For a from-source local build, use: docker build -f Dockerfile.source .
+# CI builds `toolport-gateway` with cached Rust (see .depot/workflows/ci.yml) and
+# copies the binary in as `toolport-gateway-bin` before `depot build`.
+# For a from-source local build, use: depot build -f Dockerfile.source .
 
 FROM debian:bookworm-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \

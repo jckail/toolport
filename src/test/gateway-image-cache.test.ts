@@ -1,4 +1,4 @@
-// Pins SBS-926: docker-publish must never restore the workspace target with
+// Pins SBS-926: the gateway-image job must never restore the workspace target with
 // actions/cache, because Cargo can then upload a stale gateway binary.
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
@@ -46,12 +46,12 @@ function assertSafeGatewayCache(job: WorkflowJob): void {
 }
 
 const workflow = parseWorkflow(
-  readFileSync(join(process.cwd(), ".github", "workflows", "docker-publish.yml"), "utf8"),
+  readFileSync(join(process.cwd(), ".depot", "workflows", "ci.yml"), "utf8"),
 );
 
-describe("docker publish Rust cache (SBS-926)", () => {
+describe("gateway image Rust cache (SBS-926)", () => {
   it("evicts workspace crates instead of restoring src-tauri/target wholesale", () => {
-    assertSafeGatewayCache(workflow.jobs!["build-gateway"]);
+    assertSafeGatewayCache(workflow.jobs!["gateway-image"]);
   });
 
   it.each(["actions/cache@sha", "actions/cache/restore@sha", "actions/cache/save@sha"])(
@@ -59,7 +59,7 @@ describe("docker publish Rust cache (SBS-926)", () => {
     (cacheAction) => {
       const fixture = parseWorkflow(`
 jobs:
-  build-gateway:
+  gateway-image:
     steps:
       - uses: ${cacheAction}
         with:
@@ -68,7 +68,7 @@ jobs:
         with:
           workspaces: src-tauri
 `);
-      expect(() => assertSafeGatewayCache(fixture.jobs!["build-gateway"])).toThrow();
+      expect(() => assertSafeGatewayCache(fixture.jobs!["gateway-image"])).toThrow();
     },
   );
 });
