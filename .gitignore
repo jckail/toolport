@@ -129,3 +129,6 @@ src-tauri/rate_limit_counters.test.json
 
 # Local verification logs and screenshots
 /.verify/
+
+# Local worktrees (JCK-2026)
+.worktrees/

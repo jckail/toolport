@@ -120,7 +120,7 @@ If `target/` is still too large, `--lib` alone beats `--lib --bins --tests`,
 
 ### Let CI do the verifying
 
-CI runs the full matrix on **every pull request**, including the platforms most
+CI (Depot CI, Linux) runs on **every pull request**, including the checks most
 contributors do not have. You do not need a clean local run before opening one:
 push a draft PR and iterate on what CI reports. That is the intended path when
 your machine cannot build the whole project, and it is never treated as a lower
