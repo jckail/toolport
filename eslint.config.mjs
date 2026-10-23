@@ -9,7 +9,7 @@ import globals from "globals";
 export default tseslint.config(
   // Ignore build output and deps (Prettier handles its own ignores).
   {
-    ignores: ["dist/", "node_modules/", "src-tauri/"],
+    ignores: ["dist/", "node_modules/", "src-tauri/", ".worktrees/"],
   },
 
   // Base JS + TypeScript recommended rules.

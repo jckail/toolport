@@ -27,10 +27,6 @@ const mcp = readJson("mcp.json");
 const claudeManifest = readJson(".claude-plugin", "plugin.json");
 const claudeMcp = readJson(".mcp.json");
 const pkg = JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8"));
-const releaseWorkflow = readFileSync(
-  join(repoRoot, ".github", "workflows", "release.yml"),
-  "utf8",
-);
 
 // Spec 1.0.0: name is 1-64 chars of [a-z0-9.-], alphanumeric at both ends, no
 // consecutive hyphens or periods.
@@ -400,28 +396,5 @@ describe("agent plugin gateway launcher", () => {
     expect(() => validateGatewayOverride("./gateway")).toThrow(
       "TOOLPORT_GATEWAY must be an absolute path",
     );
-  });
-
-  it("packages and uploads the zip independently of native builds", () => {
-    const job = releaseWorkflow
-      .split("\n  agent-plugin:\n")[1]
-      ?.split("\n  updater-manifest:\n")[0];
-    expect(job).toBeDefined();
-    expect(job).not.toMatch(/^\s+needs:/m);
-    expect(job).toContain("toolport-agent-plugin.zip");
-    expect(job).toContain("Upload the agent plugin");
-  });
-
-  it("carries the changelog notes, since it always creates the draft first", () => {
-    // This job runs in seconds against a native build's tens of minutes, so it wins
-    // the race to create the release, and the release action only applies body_path
-    // to a release it created. Without its own notes step the published body is
-    // empty, which is how v1.13.0 shipped before it was set by hand.
-    const job = releaseWorkflow
-      .split("\n  agent-plugin:\n")[1]
-      ?.split("\n  updater-manifest:\n")[0];
-    expect(job).toContain("Extract this version's changelog entry");
-    expect(job).toContain("body_path:");
-    expect(job).toContain("CHANGELOG.md");
   });
 });

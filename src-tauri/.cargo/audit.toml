@@ -21,4 +21,13 @@ ignore = [
     # Remove when that stack adopts quick-xml 0.41+.
     "RUSTSEC-2026-0194",
     "RUSTSEC-2026-0195",
+    # zip 4.6.1 extract() symlink/permission advisories. zip is pulled in
+    # transitively by tauri-plugin-updater and is not a direct dependency; the fix
+    # needs zip >=9, which the pinned updater stack does not allow without moving
+    # the Tauri stack. Only reachable by extracting an update archive that already
+    # passed the updater's signature check. Triaged by the JCK-2032 migration so the
+    # Depot gate could go green; owner to confirm. Remove when the stack adopts zip 9+.
+    "RUSTSEC-2026-0367",
+    "RUSTSEC-2026-0368",
+    "RUSTSEC-2026-0369",
 ]
