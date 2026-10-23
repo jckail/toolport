@@ -79,7 +79,7 @@ trap 'rm -rf "$tmp"' EXIT
 
 # `curl --retry` does not retry a 404, and a 404 is exactly what the release
 # asset CDN serves for a short window right after a release is published - which
-# is the moment aur.yml runs. Retry it explicitly, then give up with an error
+# is the moment upstream's AUR workflow runs (not in this fork; see ARCH-REPO-SETUP.md). Retry it explicitly, then give up with an error
 # that names WHICH download failed: the .deb and the LICENSE fail for completely
 # different reasons, and "the release must be published first" sends the operator
 # to republish a release that is already fine when it was the LICENSE path that
@@ -104,7 +104,7 @@ fetch_sha() {
 
 echo "fetching $deb_url" >&2
 deb_sha=$(fetch_sha ".deb" "$deb_url" "$tmp/pkg.deb" \
-  "The release must be PUBLISHED first; draft assets 404. Check the asset name in release.yml if the release is published and this still fails.")
+  "The release must be PUBLISHED first; draft assets 404. Check the asset name in upstream's release workflow if the release is published and this still fails.")
 echo "fetching $license_url" >&2
 license_sha=$(fetch_sha "LICENSE" "$license_url" "$tmp/LICENSE" \
   "This is the LICENSE file at the tag, not a release asset: publishing the release again will not help. Check that the tag exists and that LICENSE is still at the repository root.")
