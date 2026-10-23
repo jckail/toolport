@@ -3045,17 +3045,33 @@ mod tests {
             };
             let me = Self { child, exe };
 
+            // Two separate proc files, and they do not become valid together. The exec
+            // swaps the process image (`exe`) before it records the argument vector,
+            // so for a short window `/proc/<pid>/exe` is already the new path while
+            // `/proc/<pid>/cmdline` still reads empty. `gateway_daemon_role` turns an
+            // empty cmdline into `None`, and `decide_reap` keeps anything whose role
+            // it cannot establish, so a test that enumerated inside that window saw
+            // `Keep` where it expected `Kill` (the intermittent Depot failure of
+            // `linux_deleted_image_is_enumerated_but_misses_its_own_keep_path`).
+            // Waiting on both makes the helper's "exec has happened" promise true.
             let link = PathBuf::from(format!("/proc/{}/exe", me.pid()));
+            let cmdline = PathBuf::from(format!("/proc/{}/cmdline", me.pid()));
             for _ in 0..300 {
-                if std::fs::read_link(&link)
+                let exec_done = std::fs::read_link(&link)
                     .map(|p| p == me.exe)
-                    .unwrap_or(false)
-                {
+                    .unwrap_or(false);
+                let args_ready = std::fs::read(&cmdline)
+                    .map(|args| !args.is_empty())
+                    .unwrap_or(false);
+                if exec_done && args_ready {
                     return me;
                 }
                 std::thread::sleep(std::time::Duration::from_millis(10));
             }
-            panic!("child never exec'd into {}", me.exe.display());
+            panic!(
+                "child never finished exec'ing into {} (exe link or cmdline not ready)",
+                me.exe.display()
+            );
         }
 
         fn pid(&self) -> u32 {

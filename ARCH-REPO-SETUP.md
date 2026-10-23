@@ -1,7 +1,17 @@
 # Your side of the Arch repository setup
 
-Everything in the repo is done. These are the steps only you can do, in order.
-Nothing here is reversible-unfriendly; you can redo any of it.
+> **Publishing is upstream's, not this fork's.** The release, AUR, Arch repo, winget and GHCR
+> workflows were removed from `jckail/toolport` in #7 (JCK-2032) because only upstream
+> (`btsouth/toolport`) publishes. This fork's CI is `.depot/workflows/ci.yml` (`depot-ci`), which
+> builds and tests only and publishes nothing. Do not cut releases or publish packages from this fork
+> unless asked.
+>
+> This file is kept as a record of upstream's Arch repository setup. The `arch-repo.yml` workflow and
+> the `REPO_GPG_*` and `R2_*` secrets it used do not exist in this fork, so steps 4 and 5 cannot be
+> run here. Follow them only in a repository that has the workflow.
+
+These are the steps upstream's owner did by hand, in order. Nothing here is
+reversible-unfriendly; you can redo any of it.
 
 ## 1. Create the signing key (~5 min)
 
@@ -53,6 +63,8 @@ Arch path while the placeholder is there, so this cannot ship half-done.
 
 ## 4. Add the GitHub secrets
 
+(Upstream only. This fork has no workflow that reads them.)
+
 Settings, Secrets and variables, Actions:
 
 | secret                 | value                                                       |
@@ -67,6 +79,8 @@ Settings, Secrets and variables, Actions:
 Then `shred -u private.asc`.
 
 ## 5. Publish the release, then run the workflow
+
+(Upstream only. `arch-repo.yml` was removed from this fork in #7.)
 
 The workflow refuses drafts and prereleases on purpose.
 

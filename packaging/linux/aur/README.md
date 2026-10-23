@@ -1,5 +1,14 @@
 # Arch Linux (AUR): `toolport-bin`
 
+> **Publishing is upstream's, not this fork's.** The release, AUR, Arch repo, winget and GHCR
+> workflows were removed from `jckail/toolport` in #7 (JCK-2032) because only upstream
+> (`btsouth/toolport`) publishes. This fork's CI is `.depot/workflows/ci.yml` (`depot-ci`), which
+> builds and tests only and publishes nothing. Do not cut releases or publish packages from this fork
+> unless asked.
+>
+> `.github/workflows/aur.yml`, described below, no longer exists in this fork. `scripts/render-aur.sh`
+> still does and works by hand, but the AUR package itself is published by upstream.
+
 A native package for Arch and Arch-derived distros (Manjaro, EndeavourOS,
 **Omarchy**). It is an option, not a requirement: as of 1.16.0 the AppImage runs
 on Arch too (see below), and the installer script now takes that path by default.
@@ -86,7 +95,8 @@ verified. They are rendered per release instead:
 scripts/render-aur.sh 1.15.0 ./aur
 ```
 
-`.github/workflows/aur.yml` runs exactly that on `release: released`, builds the
+Upstream's `aur.yml` workflow (removed from this fork in #7) ran exactly that on
+`release: released`, built the
 package in an `archlinux:base-devel` container to prove the PKGBUILD works, and
 pushes to the AUR. Package metadata (description, `depends`, `optdepends`) lives
 in `scripts/render-aur.sh`; edit it there.
@@ -100,7 +110,7 @@ in `scripts/render-aur.sh`, not in the workflow.
 
 ## One-time setup before the first publish
 
-The workflow no-ops with a warning until this is done, so it can never fail a
+Upstream's workflow no-ops with a warning until this is done, so it can never fail a
 release.
 
 1. Create an AUR account at <https://aur.archlinux.org/> and add an SSH public
@@ -123,7 +133,7 @@ release.
 `pkgrel` reads as "already installed" on every machine that took the broken one,
 so only fresh installs get the fix. Bump the revision:
 
-- workflow: run `aur.yml` with the same tag and `pkgrel` set to `2`, `3`, ...
+- upstream's workflow: run `aur.yml` with the same tag and `pkgrel` set to `2`, `3`, ...
 - by hand: `AUR_PKGREL=2 scripts/render-aur.sh 1.15.0 ./aur`
 
 The bump is deliberate, never automatic: silently re-rolling an already-published

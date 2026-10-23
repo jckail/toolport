@@ -1,6 +1,16 @@
 # Releasing
 
-Releases are built by CI on a version tag (`.github/workflows/release.yml`).
+> **Publishing is upstream's, not this fork's.** The release, AUR, Arch repo, winget and GHCR
+> workflows were removed from `jckail/toolport` in #7 (JCK-2032) because only upstream
+> (`btsouth/toolport`) publishes. This fork's CI is `.depot/workflows/ci.yml` (`depot-ci`), which
+> builds and tests only and publishes nothing. Do not cut releases or publish packages from this fork
+> unless asked.
+>
+> What follows is upstream's release process, kept for reference. In this fork nothing builds or
+> publishes on a tag, and the workflow files it names (`release.yml`, `arch-repo.yml`, `winget.yml`,
+> `aur.yml`, `docker-publish.yml`) do not exist here.
+
+Upstream's releases are built by CI on a version tag (`.github/workflows/release.yml`).
 
 1. Bump the version to match the tag in:
    - `src-tauri/tauri.conf.json` (`version`), drives the installer filename

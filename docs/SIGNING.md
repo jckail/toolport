@@ -2,6 +2,15 @@
 
 This covers Windows (SmartScreen) and macOS (Gatekeeper/notarization).
 
+> **Publishing is upstream's, not this fork's.** The release, AUR, Arch repo, winget and GHCR
+> workflows were removed from `jckail/toolport` in #7 (JCK-2032) because only upstream
+> (`btsouth/toolport`) publishes. This fork's CI is `.depot/workflows/ci.yml` (`depot-ci`), which
+> builds and tests only and publishes nothing. Do not cut releases or publish packages from this fork
+> unless asked.
+>
+> The signing setup below describes upstream's release workflow (`.github/workflows/release.yml`),
+> which this fork removed. No installer is built or signed here, and the secrets listed need not be set.
+
 # Windows installer
 
 Unsigned installers trigger a Windows SmartScreen warning ("Windows protected
