@@ -1,3 +1,4 @@
+// Saved provider recipes are inert local-check references after JCK-2596; these tests do not submit jobs.
 // Pins SBS-926: the gateway-image job must never restore the workspace target with
 // actions/cache, because Cargo can then upload a stale gateway binary.
 import { describe, expect, it } from "vitest";
@@ -46,7 +47,7 @@ function assertSafeGatewayCache(job: WorkflowJob): void {
 }
 
 const workflow = parseWorkflow(
-  readFileSync(join(process.cwd(), ".depot", "workflows", "ci.yml"), "utf8"),
+  readFileSync(join(process.cwd(), ".ci", "local-reference", "workflows", "ci.yml"), "utf8"),
 );
 
 describe("gateway image Rust cache (SBS-926)", () => {

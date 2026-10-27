@@ -1,3 +1,4 @@
+// Saved provider recipes are inert local-check references after JCK-2596; these tests do not submit jobs.
 // Pins the merge gate of the Depot CI workflow (.depot/workflows/ci.yml, JCK-2026).
 // Branch protection requires only `depot-ci / ci-result`. That job runs under
 // `if: always()`, so it must itself fail unless every other job succeeded; a
@@ -86,7 +87,7 @@ function failsClosed(job: WorkflowJob): boolean {
 }
 
 const ci = parseWorkflow(
-  readFileSync(join(process.cwd(), ".depot", "workflows", "ci.yml"), "utf8"),
+  readFileSync(join(process.cwd(), ".ci", "local-reference", "workflows", "ci.yml"), "utf8"),
 );
 
 describe("Depot CI required merge gate", () => {
