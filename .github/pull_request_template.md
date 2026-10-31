@@ -25,6 +25,9 @@ Linear: JCK-
 - [ ] `npm run test:rust` passes
 - [ ] Ran the app (`npm run tauri dev`) and checked the change by hand, if it touches the UI
 
+## Decision record
+<!-- Link the ADR in docs/adr, or write 'none needed' with a reason. -->
+
 ## Risk and rollback
 
 <!-- What could break, who or what it affects, and how to undo it.
